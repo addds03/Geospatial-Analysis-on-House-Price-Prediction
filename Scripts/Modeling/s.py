@@ -1,0 +1,5 @@
+fig, ax = plt.subplots()
+ax.scatter(x = df_nogeo['sqft'], y = df_nogeo['final_price'])
+plt.ylabel('final_price', fontsize=13)
+plt.xlabel('GrLivArea', fontsize=13)
+plt.show()
