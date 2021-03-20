@@ -17,3 +17,6 @@
 didn't help much.* 
 
 ### Stacking Model
+
+Creating a stack of all the above models at level 1 
+followed by Linear Regression model for level 2
