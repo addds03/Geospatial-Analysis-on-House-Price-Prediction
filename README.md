@@ -16,7 +16,7 @@
 *P.S - The above models are used with defualt configurations, and using Gridsearch for parameter tunning
 didn't help much.* 
 
-### Stacking Model
+### Stacking Model ***Accuracy : 0.021***
 
 Creating a stack of all the above models at level 1 
 followed by Linear Regression model for level 2
