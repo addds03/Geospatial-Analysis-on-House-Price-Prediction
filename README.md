@@ -11,7 +11,7 @@
 
 ## Code and Resources Used 
 **Python Version:** 3.7  
-**Packages:** pandas, numpy, sklearn, scipy
+**Packages:** pandas, numpy, sklearn, scipy  
 **Visualizations:** Tableau, matplotlib, seaborn, brewer, folium
 
 
