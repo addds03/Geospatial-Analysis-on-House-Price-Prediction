@@ -36,3 +36,71 @@ After collecting the data, we needed to clean it up so that it was usable for ou
 
 ## Exploratory Data Analysis
 
+* Missing sqft data was mainly from the detached and semi-detached houses.
+
+![Screenshot 2021-05-04 at 5 35 54 PM](https://user-images.githubusercontent.com/39771193/117072912-302fa980-acff-11eb-9666-2eb68e778c07.png)
+
+* Spatial heatmap of median income, shows higher income (red) in the center (downtown).
+
+![Screenshot 2021-05-04 at 5 40 35 PM](https://user-images.githubusercontent.com/39771193/117073400-d7144580-acff-11eb-9b6f-9e09a3409b2b.png)
+
+* Crimes in Toronto, 2014 to 2019
+
+| Assualt | Breaking & Entering | Auto Theft | Robbery | Theft over $1000 |
+|:-------:|:-------------------:|:----------:|:-------:|:----------------:|
+|  51.5%  |        23.7%        |    11.8%   |   9.4%  |       3.7%       |
+
+*P.S - Homicide were excluded from the dataset due to being sensitive information.*
+
+* Elastice 10% increase of features on final price
+
+|           Features           | Percentage Impact | $Amount/Million |
+|:----------------------------:|:-----------------:|:---------------:|
+|         Median Income        |       9.46%       |      $94600     |
+|          Square Feet         |       4.40%       |      $44000     |
+|      Distance to School      |       0.07%       |       $700      |
+|   Distance to Transit Stop   |       -0.10%      |      -$100      |
+|       Auto Thefts 500m       |       -0.02%      |      -$200      |
+|        Violent Crimes        |       -0.23%      |      -$2300     |
+|       Distance to Parks      |       -0.04%      |      -$400      |
+| Distance to Nearest Hospital |       0.02%       |       $200      |
+
+* Semi-elastic 1 unit increase of feature on final price
+
+| Features | Percentage Impact | $Amount/Million |
+|:--------:|:-----------------:|:---------------:|
+|  Parking |       2.63%       |      $22630     |
+| Bathroom |       6.57%       |      $65700     |
+
+
+## Methodology
+
+### Casual Analysis
+
+To build a good regression model, we check
+1. Missing values
+2. Multicolinearity - Using pearson corelation, only one of the features with coeffiecient greater than 0.9 were used.
+3. Outliers - By performing scatter plot.
+4. Normality - Variables were right-skewed, we performed logarithmic transformation
+
+* Hedonic price equation to measure house cost:
+
+![Screenshot 2021-05-04 at 6 05 00 PM](https://user-images.githubusercontent.com/39771193/117075684-40e21e80-ad03-11eb-98f9-1462448adf3a.png)
+
+where the price is the final sale price of the house, ACrime is the amount of auto theft-related crimes within 500 meters of the house, Vcrime is the number of violent crimes within 500 meters of the house, ΔAirbnb is the change of Airbnb’s within 500 meters of the house from 2014 to 2019, distPark is the measured euclidean distance from the nearest park to the house, distHosp is the measured euclidean distance from the nearest hospital to the house. Both distPark and distHosp are measured in meters.
+Additionally, we included dummy variables for both house type and neighborhood to capture the individual house types and unobserved neighborhood heterogeneities.
+
+### Machine Learning
+
+* We performed preprocessing, mentioned in the earlier sections.
+* 80-20 Train-Test split.
+* To cross-validate our model, we chose a stratified 5-folds.
+* We choose Root mean square log error (RMSLE), because it only considers the relatie error, and also includes larger penalty for underestimation.
+
+![Screenshot 2021-05-04 at 6 14 10 PM](https://user-images.githubusercontent.com/39771193/117076528-881cdf00-ad04-11eb-9031-626a51d24000.png)
+
+### Model Performance
+
+![Screenshot 2021-05-04 at 6 15 03 PM](https://user-images.githubusercontent.com/39771193/117076618-a7b40780-ad04-11eb-810b-20fc79324d16.png)
+
+***We created a stacked meta-model combining ENET, GBDT, and KRR models, with linear regression as our base model. These models were selected, as we wanted to avoid the overfitting characteristic of tree-based models while improving the performance of our under-performing algorithms by combining them. The stacked meta-model performed well, with an RMSLE of 0.15 on the training data and 0.1717 on the testing data. To further improve the performance of our stacked model, we combined our stacked, LightGBM, and XGBoost models with weighted averages. The stacked model was assigned a more prominent importance of 70%, followed by 15% each for the LightGBM and XGBoost models. By doing this, we were able to improve our performance from an RMSLE of 0.1356 to 0.1325.***
