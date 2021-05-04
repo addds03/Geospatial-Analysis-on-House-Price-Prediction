@@ -1,4 +1,4 @@
-# Toronto House Prices: A Hedonic Geospatial Analysis: Overview
+# Toronto House Prices: A Hedonic Geospatial Analysis: Overview (Aditya Gaikwad & Jacob Hazen)
 
 * Created a tool that estimates house prices (RMSLE ~ 0.1325) to help house buyers, sellers, or agent negotiate their house prices.
 * Gathered data from multiple data sources, primary zoocasa.ca, and external factors Toronto Open Data Portal, Airbnb.ca, Toronto Police Service Data Portal. 
